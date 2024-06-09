@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>Update user</title>
+</head>
+<body>
+<form method="post" th:action="@{edit?id=} + ${user.getId()}" th:object="${user}" >
+  <label for="Username">Username</label>
+  <input type="text" th:field="*{username}" id="Username">
+  <p th:if="${#fields.hasErrors('username')}"  style="color: red; font-weight: bold">Invalid Username</p>
+  <label for="Password">Password</label>
+  <input type="text" th:field="*{password}" id="Password">
+  <p th:if="${#fields.hasErrors('password')}"  style="color: red; font-weight: bold">Invalid Password</p>
+  <label for="Name">Name</label>
+  <input type="text" th:field="*{name}" id="Name">
+  <p th:if="${#fields.hasErrors('name')}"  style="color: red; font-weight: bold">Invalid Name</p>
+  <label for="Age">Age</label>
+  <input type="text" th:field="*{age}" id="Age">
+  <p th:if="${#fields.hasErrors('age')}"  style="color: red; font-weight: bold">Invalid Age</p>
+  <label for="Email">Email</label>
+  <input type="text" th:field="*{email}" id="Email">
+  <p th:if="${#fields.hasErrors('email')}"  style="color: red; font-weight: bold">Invalid Email</p>
+  <label>Roles:
+    <input type="checkbox" name="roles"
+           th:each="role : ${allRoles}"
+           th:text="${role.name}"
+           th:value="${role.id}"
+           th:field="*{roles}"
+    />
+  </label>
+  <input type="submit" value="update"/>
+</form>
+<a th:href="@{/admin}">Return</a>
+</body>
+</html>
