@@ -1,18 +1,11 @@
 package ru.kata.spring.boot_security.demo.models;
 
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -33,8 +26,9 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
+    @Column(nullable = false, unique = true)
     @NotEmpty
+    //todo unique
     @Pattern(regexp = "^[a-zA-Z]+$")
     private String username;
     @Column
@@ -54,7 +48,7 @@ public class User implements UserDetails {
     @Email
     @NotEmpty
     private String email;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -78,6 +72,14 @@ public class User implements UserDetails {
         this.age = age;
         this.email = email;
         this.roles = roles;
+    }
+    public User(User user) {
+        this.username = user.username;
+        this.password =  user.password;
+        this.name =  user.name;
+        this.age =  user.age;
+        this.email =  user.email;
+        this.roles =  user.roles;
     }
 
     public int getId() {

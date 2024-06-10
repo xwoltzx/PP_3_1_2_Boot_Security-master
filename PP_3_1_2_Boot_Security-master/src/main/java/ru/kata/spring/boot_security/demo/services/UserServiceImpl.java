@@ -15,7 +15,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private PasswordEncoder passwordEncoder;
 
 
     private UserRepository userRepository;
@@ -60,5 +60,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUserById(int id) {
         userRepository.deleteById(id);
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 }
