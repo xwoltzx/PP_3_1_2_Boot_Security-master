@@ -26,9 +26,9 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     @Column(nullable = false, unique = true)
     @NotEmpty
-    //todo unique
     @Pattern(regexp = "^[a-zA-Z]+$")
     private String username;
     @Column
@@ -48,7 +48,7 @@ public class User implements UserDetails {
     @Email
     @NotEmpty
     private String email;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
